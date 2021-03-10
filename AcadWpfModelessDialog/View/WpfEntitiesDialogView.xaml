@@ -1,0 +1,81 @@
+﻿<Window 
+    x:Class="AcadWpfModelessDialog.View.WpfEntitiesDialogView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:AcadWpfModelessDialog.View"
+    Title="Acad Wpf Modeless Dialog"
+    Width="400" Height="400">
+    <Window.Style>
+        <Style TargetType="{x:Type Window}">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding IsBusy}" Value="true">
+                    <Setter Property="Cursor" Value="Wait"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding IsBusy}" Value="false">
+                    <Setter Property="Cursor" Value="Arrow"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Style>
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/AcadWpfModelessDialog;Component/resources/media/dictionaries/icons.xaml"/>
+
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid Margin="10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="3*"/>
+        </Grid.ColumnDefinitions>
+        
+        <!--left column-->
+        <StackPanel 
+            Grid.Column="0"
+            HorizontalAlignment="Left">
+            <Label Content="Add Entity:"/>
+            <StackPanel Orientation="Horizontal">
+                <ComboBox
+                    Name="entitiesCombo"
+                    Width="80" Height="25"
+                    SelectedIndex="0"
+                    SelectedItem="{Binding CurrentCmd, Mode=OneWayToSource}"
+                    ItemsSource="{Binding SupportedAcadEntities}"/>
+                <Button
+                    Width="30" Height="25" 
+                    Margin="5 0 0 0"
+                    Content="Add"
+                    Command="{Binding AddEntityCmd}"
+                    CommandParameter="{Binding ElementName=entitiesCombo,
+                        Path=SelectedItem}"/>
+            </StackPanel>
+            <TextBlock
+                Text="{Binding NotifyMessage}"
+                FontSize="12" 
+                TextWrapping="Wrap"/>
+        </StackPanel>
+        
+        <!--right column-->
+        <StackPanel Grid.Column="1">
+            <Button
+                Width="20" Height="22" 
+                Margin="2"
+                HorizontalAlignment="Right"
+                Content="{StaticResource RefresIconPath}"
+                Command="{Binding RefreshCmd}"/>
+            <local:EntitiesView
+                DataContext="{Binding}"/>
+            <StackPanel
+                Orientation="Horizontal">
+                <Label Content="Number of Entities In ModelSpace: "/>
+                <TextBlock 
+                    Text="{Binding AcadEntities.Count, 
+                        Mode=OneWay, UpdateSourceTrigger=Default}"
+                    VerticalAlignment="Center"
+                    Foreground="Blue"/>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Window>
