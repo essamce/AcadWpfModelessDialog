@@ -116,7 +116,7 @@ namespace AcadWpfModelessDialog.ViewModel
         private readonly DocumentCollection _dwgManager = null;
         private string _currentCommand = "";
         public IntPtr DocumentPointer { private set; get; }
-        public void RefreshEntityData(Document dwg)
+        public void RefreshEntityData(Document acDoc)
         {
             try
             {
@@ -124,7 +124,7 @@ namespace AcadWpfModelessDialog.ViewModel
 
                 AcadEntities.Clear();
                 CadUtil
-                    .CollectEntitiesInModelSpace(dwg)
+                    .CollectEntitiesInModelSpace(acDoc)
                     .ToList()
                     .ForEach(AcadEntities.Add);
             }
@@ -133,7 +133,7 @@ namespace AcadWpfModelessDialog.ViewModel
                 IsBusy = false;
             }
 
-            DocumentPointer = dwg.UnmanagedObject;
+            DocumentPointer = acDoc.UnmanagedObject;
         }
         private void ExecuteCommand(string commandName)
         {

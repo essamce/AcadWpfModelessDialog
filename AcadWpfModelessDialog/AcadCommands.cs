@@ -5,8 +5,8 @@ using AcadWpfModelessDialog.ViewModel;
 using AcadWpfModelessDialog.Utils;
 using ModelessDialogWithAction.Model;
 
-//[assembly: CommandClass(typeof(ModelessDialogWithAction.MyCommands))]
-//[assembly: ExtensionApplication(typeof(ModelessDialogWithAction.MyCommands))]
+[assembly: CommandClass(typeof(AcadWpfModelessDialog.AcadCommands))]
+[assembly: ExtensionApplication(typeof(AcadWpfModelessDialog.AcadCommands))]
 
 namespace AcadWpfModelessDialog
 {
@@ -42,7 +42,6 @@ namespace AcadWpfModelessDialog
 
         public void Terminate()
         {
-
         }
 
         #endregion
@@ -50,10 +49,10 @@ namespace AcadWpfModelessDialog
         [CommandMethod("ShowWpfDialog", CommandFlags.Session)]
         public static void ShowWpfDialog()
         {
-            var dwg = CadApp.DocumentManager.MdiActiveDocument;
-            if (_dialogViewModel.DocumentPointer != dwg.UnmanagedObject)
+            var acDoc = CadApp.DocumentManager.MdiActiveDocument;
+            if (_dialogViewModel.DocumentPointer != acDoc.UnmanagedObject)
             {
-                _dialogViewModel.RefreshEntityData(dwg);
+                _dialogViewModel.RefreshEntityData(acDoc);
             }
 
             CadApp.ShowModelessWindow(_dialog);
