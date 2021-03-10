@@ -66,6 +66,7 @@
                 Content="{StaticResource RefresIconPath}"
                 Command="{Binding RefreshCmd}"/>
             <local:EntitiesView
+                MaxHeight="350"
                 DataContext="{Binding}"/>
             <StackPanel
                 Orientation="Horizontal">
